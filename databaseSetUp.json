@@ -1,0 +1,71 @@
+{
+  "events" : {
+    "-KXx3DQCPgWhstMgNtRN" : {
+      "eventName" : "cc",
+      "location" : "cc"
+    },
+    "-KXxcnnoIP1QCMZ0wLY2" : {
+      "date" : "2016-12-2",
+      "eventName" : "party",
+      "location" : "700 Commonwelth Avenue, Boston, MA, 02215",
+      "time" : "13:5"
+    },
+    "aa" : {
+      "eventName" : "aa",
+      "location" : "aa"
+    },
+    "bb" : {
+      "eventName" : "bb",
+      "location" : "bb"
+    },
+    "qqq" : {
+      "eventName" : "qqq",
+      "location" : "qqq"
+    },
+    "qwe" : {
+      "eventName" : "qwe",
+      "location" : "ewq"
+    },
+    "test" : "123",
+    "test2" : {
+      "eventName" : "test2",
+      "location" : "home"
+    }
+  },
+  "users" : {
+    "alovelace" : {
+      "email" : "1234@1234.com",
+      "friend" : {
+        "eclarke" : true,
+        "ghopper" : true
+      },
+      "genter" : "male",
+      "location" : "73,21",
+      "name" : "Ada Lovelace",
+      "phone" : 7135537443,
+      "score" : 20
+    },
+    "eclarke" : {
+      "email" : "1234@1234.com",
+      "friend" : {
+        "ghopper" : true
+      },
+      "genter" : "male",
+      "location" : "83,22",
+      "name" : "shitty ghopper",
+      "phone" : 7135592843,
+      "score" : 10
+    },
+    "ghopper" : {
+      "email" : "1234@1234.com",
+      "friend" : {
+        "ghopper" : true
+      },
+      "genter" : "female",
+      "location" : "45,45",
+      "name" : "shitty ghopper",
+      "phone" : 7135537422,
+      "score" : 40
+    }
+  }
+}

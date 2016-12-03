@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="info.androidhive.firebase.ProfileActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/header_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/roundflower" />
+
+        <info.androidhive.firebase.RoundedImageView
+            android:id="@+id/imageViewRound"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background"
+            android:layout_below="@+id/header_cover_image"
+            android:layout_marginTop="100dp"
+            android:elevation="5dp"
+            android:layout_alignParentTop="true"
+
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ebffffff"
+            android:elevation="4dp"
+            android:paddingBottom="24dp"
+            android:layout_below="@+id/header_cover_image"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/user_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="75dp"
+                android:text="Jeremy Dog"
+                android:textColor="#EB0D0808"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/user_profile_short_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_profile_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="I am handsome as hell"
+                android:textColor="#EB0D0808"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/add_friend"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+
+                android:src="@drawable/add_friend"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/camera_icon"
+                android:layout_marginStart="30dp" />
+
+            <ImageView
+                android:id="@+id/camera_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+
+                android:src="@drawable/camera_icon"
+                android:layout_alignTop="@+id/add_friend"
+                android:layout_toEndOf="@+id/user_profile_name" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="Up Coming Events" />
+
+            <Button
+                android:id="@+id/createButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="@string/createEvent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_sign_out"
+                android:id="@+id/sign_out"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+</ScrollView>
