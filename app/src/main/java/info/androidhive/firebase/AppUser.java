@@ -15,14 +15,14 @@ public class AppUser {
     private String location;
     private String name;
     private String phone;
-    private String score;
+    private long score;
     private String email;
     private Map<String, Boolean>friend=new HashMap<>();
 
     public AppUser() {
     }
 
-    public AppUser(String email, String name, String location, String gender, String phone, String score) {
+    public AppUser(String email, String name, String location, String gender, String phone, long score) {
         this.name = name;
         this.gender =gender;
         this.phone = phone;
@@ -43,7 +43,7 @@ public class AppUser {
     public String getLocation() {
         return location;
     }
-    public String getScore() {
+    public long getScore() {
         return score;
     }
     public String getPhone() {
