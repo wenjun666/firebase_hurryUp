@@ -78,8 +78,10 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-//        textLat = (TextView) findViewById(R.id.lat);
-//        textLong = (TextView) findViewById(R.id.lon);
+
+        // Fake numbers right now
+        latitude = 22.22222;
+        longitude = 22.33333;
         location = new LatLng(latitude, longitude);
 
         // initialize GoogleMaps
