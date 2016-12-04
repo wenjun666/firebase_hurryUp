@@ -343,5 +343,4 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         Log.i(TAG, "new user key:" + new_user_key);
     }
 
-//    just for the new branch
 }
