@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "try out service!", Toast.LENGTH_LONG).show();
+
                 startService(new Intent(MainActivity.this, Myservice.class));
                 /*
                 progressBar.setVisibility(View.VISIBLE);

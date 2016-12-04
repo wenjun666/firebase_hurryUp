@@ -10,22 +10,51 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 /**
  * Created by tianyang on 12/4/16.
  */
 
 public class Myservice extends Service {
+    private DatabaseReference UserDatabaseReference;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        //get current user
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String Name = user.getDisplayName();
+        String userId = user.getUid();
+        //get my own refrence
+        UserDatabaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(userId);
+        UserDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String score = dataSnapshot.child("score").getValue(String.class);
+                Toast.makeText(getApplicationContext(), "My score is:"+score, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         // Query the database and show alarm if it applies
 
         // Here you can return one of some different constants.
         // This one in particular means that if for some reason
         // this service is killed, we don't want to start it
         // again automatically
-        Toast.makeText(Myservice.this, "Let's try some Notifications!", Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(Myservice.this, ProfileActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent, 0);
+        Intent intent2 = new Intent(Myservice.this, ProfileActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
 
         // Build notification
         // Actions are just fake
