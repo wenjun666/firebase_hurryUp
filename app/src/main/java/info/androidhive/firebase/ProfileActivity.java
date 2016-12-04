@@ -342,4 +342,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
         Log.i(TAG, "new user key:" + new_user_key);
     }
+
+//    just for the new branch
 }
