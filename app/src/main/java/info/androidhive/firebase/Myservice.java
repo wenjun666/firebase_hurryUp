@@ -58,7 +58,7 @@ public class Myservice extends Service {
                         // Build notification
                         // Actions are just fake
                         Notification noti = new Notification.Builder(Myservice.this)
-                                .setContentTitle("We are testing the notifications here.")
+                                .setContentTitle("You are invited to a new Event! Check it out!")
                                 .setContentText("Subject").setSmallIcon(R.drawable.ic_stat_name)
                                 .setContentIntent(pIntent)
                                 .addAction(R.drawable.ic_stat_name, "Call", pIntent)
