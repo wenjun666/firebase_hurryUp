@@ -67,8 +67,10 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         editTxtlocation = (EditText)findViewById(R.id.editTextLocation);
         searchLocate = (Button)findViewById(R.id.searchLocation);
 
+        //initialize a fragment manager in order to show map on fragment
         final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         //Calendar c = Calendar.getInstance();
         //int date = c.get(Calendar.DAY_OF_YEAR);
@@ -81,9 +83,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
 
         editTextDate.setOnClickListener(new EditText.OnClickListener(){
             public  void onClick(View v){
-                //Intent intent = new Intent(getBaseContext(),EditDate.class);
-                //startActivity(intent);
-
+                // show fragment Date
                 PickDate newFragment = new PickDate();
                 newFragment.show(getSupportFragmentManager(), "com.example.wenjun.hurryup.DatePicker");
 
@@ -93,35 +93,39 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
 
         editTxtTime.setOnClickListener(new EditText.OnClickListener(){
             public void onClick(View v){
+                // show fragment time
                 PickTime newFragment = new PickTime();
                 newFragment.show(getSupportFragmentManager(),"PickTime");
             }
         });
 
+        // set listener to location
         editTxtlocation.setOnClickListener(new EditText.OnClickListener(){
             public void onClick(View v){
 
             }
         });
 
+        //set listner to button invite
         btnInvite.setOnClickListener(new Button.OnClickListener(){
             public  void onClick(View v){
-
-
                 String eventName = editTxtEventName.getText().toString();
                 String location = editTxtlocation.getText().toString();
                 String time= editTxtTime.getText().toString();
                 String date = editTextDate.getText().toString();
 
+                // check if all requirment fields are filled up
                 if(!eventName.isEmpty() && !location.isEmpty() && !time.isEmpty() && !date.isEmpty()){
+                    //instantiate a event object
                     Event event = new Event(eventName,date,time,longtitute,latitute);
+                    //generate a unique id key.
                     String eventKey = mEventReference.push().getKey();
-                    //mEventReference.push().setValue(event);
+                   //push the event object to database under the unique id key
                     mEventReference.child(eventKey).setValue(event);
+                    // use intent pass the unique id key to AddFriendActivity
                     Intent intent = new Intent(CreateEventActivity.this,AddFriendActivity.class);
                     intent.putExtra("eventKey",eventKey);
                     startActivity(intent);
-
 
                 }
                 else{
@@ -187,6 +191,8 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         mMap.addMarker(new MarkerOptions().position(latLng).title(aStrLoc));
 //        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));  //don't call zoomTo, buggy.
     }
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -197,12 +203,14 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
 
     }
 
+    //helper method to set editTextDate to desire format
     public void onDateSet(DatePicker view, int year, int monthOfYear,
                           int dayOfMonth) {
         editTextDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
 
     }
 
+    //helper method to set editTextTime to desire format
     public void onTimeSet(TimePicker view, int hour, int minute){
         editTxtTime.setText(hour+ ":" + minute);
     }
