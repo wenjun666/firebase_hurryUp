@@ -46,7 +46,7 @@ public class FriendList extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
 
-        //        final String user_email = user.getEmail();
+        // get user reference with specific userid.
         final Query query = mPostReference.orderByKey().equalTo(userId);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -57,7 +57,6 @@ public class FriendList extends AppCompatActivity {
                 // if user profile exists, get all the profile info
                 if (user_profile != null) {  //check if the user already has the
                     for (Map.Entry<String, Map<String, Object>> value : user_profile.entrySet()) {
-                        //Log.i(TAG,value.getValue().get("phone"));
                         Map<String, Object> abc = value.getValue();
 
                         Map<String, Boolean> friends = (Map) abc.get("friend");
@@ -71,8 +70,6 @@ public class FriendList extends AppCompatActivity {
 
                         }
 
-
-                        //Log.i(TAG, "blablablbala");
                     }
                 }
             }
