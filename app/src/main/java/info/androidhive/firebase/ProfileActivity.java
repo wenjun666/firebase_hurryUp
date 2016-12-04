@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private FirebaseAuth.AuthStateListener authListener;
     private TextView user_profile_name, user_score;
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private String email,name,gender,score,userId;
+    private String email,name,gender,score,userId,phone;
     private Set<String> friendList;
     private Button upcomingEvent;
 
@@ -79,14 +79,21 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
 
+
+        // Get the profile info and initialize info
         name = user.getDisplayName();
-        score = "0";
         if (user.getEmail() == null) {
             email = "";
         } else {
             email = user.getEmail();
         }
         userId = user.getUid();
+
+        score = "0";
+        phone = "";
+        gender = "";
+
+
 
         /****************************************
          * If the user is not the Google login
@@ -104,10 +111,9 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if user profile exists, get all the profile info
                 if (user_profile != null) {  //check if the user already has the
                     for (Map.Entry<String, Map<String, Object>> value : user_profile.entrySet()) {
-                        //Log.i(TAG,value.getValue().get("phone"));
+
                         Map<String, Object> abc = value.getValue();
-                        //Log.i(TAG,abc);
-//                        email = abc.get("email").toString();
+
                         name = abc.get("name").toString();
                         gender = abc.get("gender").toString();
                         score = abc.get("score").toString();
@@ -126,15 +132,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if null, create new user
                 else {
                     // Push a new user profil
-                    String new_user_key = userId;
-                    mPostReference.child(new_user_key).child("email").setValue(email);
-                    mPostReference.child(new_user_key).child("name").setValue(name);
-                    mPostReference.child(new_user_key).child("gender").setValue("");
-                    mPostReference.child(new_user_key).child("location").setValue("");
-                    mPostReference.child(new_user_key).child("phone").setValue("");
-                    mPostReference.child(new_user_key).child("score").setValue("");
-                    mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
-                    Log.i(TAG, "new user key:" + new_user_key);
+                    createProfile(userId, email, name, gender, phone, score);
                 }
 
             }
@@ -243,6 +241,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     //sign out method
     public void signOut() {
         auth.signOut();
+        Intent signOutIntent = new Intent(this, LoginActivity.class);
+        startActivity(signOutIntent);
     }
 
     @Override
@@ -266,7 +266,10 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 startActivity(intentFD);
                 return true;
             case R.id.logout:
-                auth.signOut();
+//                auth.signOut();
+//                Intent signOutIntent = new Intent(this, LoginActivity.class);
+//                startActivity(signOutIntent);
+                signOut();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -331,4 +334,20 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         Toast.makeText(getBaseContext(),"onfling",Toast.LENGTH_LONG).show();
         return false;
     }
+
+
+
+    // Helper method Creating new profile
+    public void createProfile(String userId, String email, String name, String gender, String phone, String score) {
+        String new_user_key = userId;
+        mPostReference.child(new_user_key).child("email").setValue(email);
+        mPostReference.child(new_user_key).child("name").setValue(name);
+        mPostReference.child(new_user_key).child("gender").setValue(gender);
+        mPostReference.child(new_user_key).child("location").setValue("");
+        mPostReference.child(new_user_key).child("phone").setValue(phone);
+        mPostReference.child(new_user_key).child("score").setValue(score);
+        mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
+        Log.i(TAG, "new user key:" + new_user_key);
+    }
+
 }
