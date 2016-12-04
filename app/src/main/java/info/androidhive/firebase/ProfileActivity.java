@@ -46,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private CharSequence method[] = new CharSequence[] {"Gallery", "Take a Photo"};
     static final int PICK_PHOTO = 1;
     static final int CAPTURE_PHOTO =2;
-
     private FirebaseAuth auth;
     private DatabaseReference mPostReference;
     private FirebaseAuth.AuthStateListener authListener;
@@ -54,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private String email,name,gender,score,userId;
     private Set<String> friendList;
+    private Button upcomingEvent;
 
     private GestureDetectorCompat GD;
 
@@ -68,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
         user_profile_name = (TextView)findViewById(R.id.user_profile_name);
         user_score = (TextView) findViewById(R.id.user_profile_short_bio);
+        upcomingEvent = (Button) findViewById(R.id.btnUpcomingEvent);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -225,6 +226,12 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 startActivity(intent);
             }
 
+        });
+        upcomingEvent.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),UpcomingEventActivity.class);
+                startActivity(intent);
+            }
         });
 
 

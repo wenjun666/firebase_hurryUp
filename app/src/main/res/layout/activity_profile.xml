@@ -93,7 +93,7 @@
             android:layout_below="@+id/profile_layout"
             android:orientation="vertical">
 
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -101,7 +101,8 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="@string/upcomingEvent" />
+                android:text="@string/upcomingEvent"
+                android:id="@+id/btnUpcomingEvent" />
 
             <Button
                 android:id="@+id/createButton"
