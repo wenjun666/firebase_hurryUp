@@ -146,8 +146,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
          * Using query
          * ********************************
          */
-
-
+        //start checking service! I have got the power!
+        startService(new Intent(ProfileActivity.this, Myservice.class));
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override

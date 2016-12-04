@@ -16,29 +16,63 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by tianyang on 12/4/16.
  */
 
 public class Myservice extends Service {
-    private DatabaseReference UserDatabaseReference;
+    private DatabaseReference UserDatabaseReference,EventDatabaseReference;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String Name = user.getDisplayName();
-        String userId = user.getUid();
+        final String userId = user.getUid();
         //get my own refrence
         UserDatabaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(userId);
-        UserDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                .child("users").child(userId).child("event");
+        Query checkEventQuery = UserDatabaseReference.orderByKey();
+        checkEventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String score = dataSnapshot.child("score").getValue(String.class);
-                Toast.makeText(getApplicationContext(), "My score is:"+score, Toast.LENGTH_SHORT).show();
+                Map<String,Object> Events= (HashMap<String,Object>) dataSnapshot.getValue();
+                for (Map.Entry<String,Object> value : Events.entrySet()) {
+                    String EventId = value.getKey();
+                    Boolean EventNotNotified = (Boolean)value.getValue();
+                    if (EventNotNotified){
+                        EventDatabaseReference= FirebaseDatabase.getInstance().getReference()
+                                .child("users").child(userId).child("event").child(EventId);
+                        EventDatabaseReference.setValue(false);
+                        //sending notification
+                        Intent intent2 = new Intent(Myservice.this, ProfileActivity.class);
+                        PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
+
+                        // Build notification
+                        // Actions are just fake
+                        Notification noti = new Notification.Builder(Myservice.this)
+                                .setContentTitle("We are testing the notifications here.")
+                                .setContentText("Subject").setSmallIcon(R.drawable.ic_stat_name)
+                                .setContentIntent(pIntent)
+                                .addAction(R.drawable.ic_stat_name, "Call", pIntent)
+                                .addAction(R.drawable.ic_stat_name, "More", pIntent)
+                                .addAction(R.drawable.ic_stat_name, "And more", pIntent).build();
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+                        // hide the notification after its selected
+                        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+                        notificationManager.notify(0, noti);
+                    }
+
+
+                }
 
             }
 
@@ -53,23 +87,6 @@ public class Myservice extends Service {
         // This one in particular means that if for some reason
         // this service is killed, we don't want to start it
         // again automatically
-        Intent intent2 = new Intent(Myservice.this, ProfileActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
-
-        // Build notification
-        // Actions are just fake
-        Notification noti = new Notification.Builder(Myservice.this)
-                .setContentTitle("We are testing the notifications here.")
-                .setContentText("Subject").setSmallIcon(R.drawable.ic_stat_name)
-                .setContentIntent(pIntent)
-                .addAction(R.drawable.ic_stat_name, "Call", pIntent)
-                .addAction(R.drawable.ic_stat_name, "More", pIntent)
-                .addAction(R.drawable.ic_stat_name, "And more", pIntent).build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
-        // hide the notification after its selected
-        noti.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notificationManager.notify(0, noti);
         stopSelf();
         return START_NOT_STICKY;
     }
