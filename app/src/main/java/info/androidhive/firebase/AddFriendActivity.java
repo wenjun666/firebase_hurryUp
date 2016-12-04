@@ -37,7 +37,7 @@ public class AddFriendActivity extends AppCompatActivity {
     private DatabaseReference mPostReference,UserDatabaseReference, FriendDatabaseReference;
     //UI
     private TextView inputText;
-    private Button btnSearch;
+    private Button btnSearch, btnFinishEvent;
     private RecyclerView friendList;
 
     private static final String TAG = AddFriendActivity.class.getSimpleName();
@@ -67,9 +67,11 @@ public class AddFriendActivity extends AppCompatActivity {
                 .child("users");
         inputText = (TextView)findViewById(R.id.textView2);
         btnSearch =(Button)findViewById(R.id.btnSearch);
+        btnFinishEvent = (Button)findViewById(R.id.btnFinishEvent);
         friendList = (RecyclerView) findViewById(R.id.friendList);
         friendList.setHasFixedSize(true);
         friendList.setLayoutManager(new LinearLayoutManager(this));
+
 
         btnSearch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
@@ -91,6 +93,33 @@ public class AddFriendActivity extends AppCompatActivity {
                 });
             }
         });
+
+        btnFinishEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Query checkEventQuery = mPostReference.child(userId).child("event").orderByKey().equalTo(eventId);
+                checkEventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> hasEvent = (HashMap<String, Object>) dataSnapshot.getValue();
+                        if (hasEvent == null) {
+                            mPostReference.child(userId).child("event").child(eventId).setValue(true);
+                            backToProfile();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "You have already in this event", Toast.LENGTH_SHORT).show();
+                            backToProfile();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
 
         final FirebaseRecyclerAdapter<AppUser, SearchActivity.UserListViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AppUser, SearchActivity.UserListViewHolder>(
@@ -138,7 +167,8 @@ public class AddFriendActivity extends AppCompatActivity {
                                                     mPostReference.child(friendId).child("event").child(eventId).setValue(true);
                                                 }
                                                 else {
-                                                    Toast.makeText(getApplicationContext(), "You have already invited this friend", Toast.LENGTH_SHORT).show();                                                }
+                                                    Toast.makeText(getApplicationContext(), "You have already invited this friend", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
 
                                             @Override
@@ -215,6 +245,11 @@ public class AddFriendActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void backToProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
 }
