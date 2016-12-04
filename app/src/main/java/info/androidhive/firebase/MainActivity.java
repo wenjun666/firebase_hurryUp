@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Boston";
 
@@ -123,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "try out service!", Toast.LENGTH_LONG).show();
+                startService(new Intent(MainActivity.this, Myservice.class));
+                /*
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null && !newEmail.getText().toString().trim().equals("")) {
                     user.updateEmail(newEmail.getText().toString().trim())
@@ -142,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (newEmail.getText().toString().trim().equals("")) {
                     newEmail.setError("Enter email");
                     progressBar.setVisibility(View.GONE);
-                }
+                }*/
+
             }
         });
 
