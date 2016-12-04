@@ -43,4 +43,13 @@
     <string name="createEvent">Create Event</string>
     <string name="location">Location</string>
     <string name="inviteFriends">Invite Friends</string>
+    <string name="EventName">Event Name</string>
+    <string name="btnLocate">locate</string>
+    <string name="Time">Time</string>
+    <string name="upcomingEvent">Upcoming Event</string>
+    <string name="searchFriend">Search New Friends</string>
+    <string name="Friend_List">Friend List</string>
+    <string name="Logout">Logout</string>
+    <string name="noFriendYet">You don\'t have friend yet, come and join the community!</string>
+    <string name="gotoSearchFriend">Search for New Friend!</string>
 </resources>

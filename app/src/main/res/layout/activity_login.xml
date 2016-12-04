@@ -19,12 +19,11 @@
 
 
         <ImageView
-            android:layout_width="255dp"
+            android:layout_width="286dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/logo"
-            android:layout_weight="0.18" />
+            android:paddingTop="40dp"
+            android:src="@drawable/logo" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

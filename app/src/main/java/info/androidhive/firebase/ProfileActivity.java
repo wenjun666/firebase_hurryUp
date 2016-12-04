@@ -6,10 +6,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,12 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener {
     private ImageView cameraIcon;
     private ImageView imageViewRound;
     private Button createButton;
@@ -38,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     private CharSequence method[] = new CharSequence[] {"Gallery", "Take a Photo"};
     static final int PICK_PHOTO = 1;
     static final int CAPTURE_PHOTO =2;
-    private Button signOut;
+
     private FirebaseAuth auth;
     private DatabaseReference mPostReference;
     private FirebaseAuth.AuthStateListener authListener;
@@ -47,10 +55,16 @@ public class ProfileActivity extends AppCompatActivity {
     private String email,name,gender,score,userId;
     private Set<String> friendList;
 
+    private GestureDetectorCompat GD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        GD = new GestureDetectorCompat(this,this);
+        //GD.setOnDoubleTapListener(ProfileActivity.this);
+        GD.setOnDoubleTapListener(this);
+
 
         user_profile_name = (TextView)findViewById(R.id.user_profile_name);
         user_score = (TextView) findViewById(R.id.user_profile_short_bio);
@@ -158,7 +172,7 @@ public class ProfileActivity extends AppCompatActivity {
         addFriend = (ImageView)findViewById(R.id.add_friend);   // add friend icon
         createButton = (Button)findViewById(R.id.createButton); // Click to create event
         cameraIcon = (ImageView)findViewById(R.id.camera_icon); //Click to choose a picture or take a picture using camera
-        signOut = (Button) findViewById(R.id.sign_out);
+
 
         Bitmap icon =  BitmapFactory.decodeResource(getResources(),R.drawable.background);
 
@@ -213,17 +227,101 @@ public class ProfileActivity extends AppCompatActivity {
 
         });
 
-        signOut.setOnClickListener(new Button.OnClickListener(){
-            public  void onClick(View v){
-                signOut();
-            }
 
-        });
 
     }
+
+
 
     //sign out method
     public void signOut() {
         auth.signOut();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_friends:
+                Intent intent = new Intent(getBaseContext(),SearchActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.curfriendList:
+                Intent intentFD = new Intent(getBaseContext(),FriendList.class);
+
+                intentFD.putExtra("userid",userId);
+                startActivity(intentFD);
+                return true;
+            case R.id.logout:
+                auth.signOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.GD.onTouchEvent(event);
+        Toast.makeText(getBaseContext(),"onTouch",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        Toast.makeText(getBaseContext(),"onSingleTap",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        Toast.makeText(getBaseContext(),"onDoubleTap",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        Toast.makeText(getBaseContext(),"onDoubleTap",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        Toast.makeText(getBaseContext(),"onDown",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        Toast.makeText(getBaseContext(),"onSingleTapUp",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        Toast.makeText(getBaseContext(),"onScroll",Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        Toast.makeText(getBaseContext(),"onfling",Toast.LENGTH_LONG).show();
+        return false;
     }
 }

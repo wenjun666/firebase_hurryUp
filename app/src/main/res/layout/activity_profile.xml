@@ -101,7 +101,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Up Coming Events" />
+                android:text="@string/upcomingEvent" />
 
             <Button
                 android:id="@+id/createButton"
@@ -116,12 +116,6 @@
                 android:padding="20dp"
                 android:text="@string/createEvent" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_sign_out"
-                android:id="@+id/sign_out"
-                android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
 

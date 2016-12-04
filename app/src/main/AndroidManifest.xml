@@ -44,8 +44,6 @@
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -64,7 +62,9 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AddFriendActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".CreateEventActivity"></activity>
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".UpcomingEventActivity" />
+        <activity android:name=".FriendList"></activity>
     </application>
 
 </manifest>
