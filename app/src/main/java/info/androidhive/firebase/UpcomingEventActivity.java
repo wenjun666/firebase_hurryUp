@@ -251,13 +251,24 @@ class MyCustomAdapter extends BaseAdapter {
 
         notifyMe.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
-                String time=eventTimeList.get(position);
+                String time= eventTimeList.get(position);
+                String[] splitTime_Parts = time.split(":");
+                String saparated_Hour = splitTime_Parts[0];
+                String saparated_Min = splitTime_Parts[1];
+                int selectedHour = Integer.valueOf(saparated_Hour);
+                int selectedMinute = Integer.valueOf(saparated_Min);
+
                 String date = eventDateList.get(position);
+                String[] splitDate_Parts = date.split("-");
+                String saparated_Day = splitDate_Parts[0];
+                String saparated_Month = splitDate_Parts[1];
+                String saparated_Year = splitDate_Parts[2];
+
+                int selectedDay = Integer.valueOf(saparated_Day);
+                int selectedMonth = Integer.valueOf(saparated_Month);
+                int selectedYear =  Integer.valueOf(saparated_Year);
                 Calendar cal = new GregorianCalendar();
-                //cal.set(selectedYear, selectedMonth, selectedDay,selectedHour, selectedMinute);
-                //cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
-                cal.set(Calendar.HOUR_OF_DAY, 18);
-                cal.set(Calendar.MINUTE, 32);
+                cal.set(selectedYear, selectedMonth, selectedDay,selectedHour, selectedMinute);
                 AlarmManager alarm = (AlarmManager)context.getSystemService(ALARM_SERVICE);
                 alarm.set(
                         alarm.RTC_WAKEUP,
