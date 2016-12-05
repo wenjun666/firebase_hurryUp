@@ -70,9 +70,10 @@
             android:name=".Myservice"
             >
         </service>
-
-        <service android:name=".GeofenceTrasitionService" />
-
+        <service
+            android:name=".NotificationPush"
+            >
+        </service>
     </application>
 
 </manifest>
