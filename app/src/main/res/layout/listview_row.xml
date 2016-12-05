@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="279dp"
-        android:layout_height="match_parent">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="67dp"
@@ -46,12 +43,13 @@
             android:textAlignment="center"
             android:textSize="20dp" />
 
-    </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
 
     <Button
         android:text="@string/notifyMe"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:id="@+id/notifyMe" />
+
+
 </LinearLayout>
