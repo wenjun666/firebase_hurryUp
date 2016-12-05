@@ -274,13 +274,13 @@ class MyCustomAdapter extends BaseAdapter {
                 cal.set(Calendar.HOUR_OF_DAY,selectedHour);
                 cal.set(Calendar.MINUTE,selectedMinute-5);
                 cal.set(Calendar.SECOND,0);
-                /*
+
                 Log.e("BOSTON", "current time:"+System.currentTimeMillis());
                 Log.e("BOSTON", "cal time:"+cal.getTimeInMillis());
                 Log.e("BOSTON", "Month"+selectedMonth);
                 Log.e("BOSTON", "Day:"+selectedDay);
                 Log.e("BOSTON", "Hour"+selectedHour);
-                Log.e("BOSTON", "Min:"+selectedMinute);*/
+                Log.e("BOSTON", "Min:"+selectedMinute);
 
 
                 //Log.e("BOSTON", "TIME DIFFERENCE:"+cal.getTimeInMillis()-System.currentTimeMillis());
@@ -288,7 +288,7 @@ class MyCustomAdapter extends BaseAdapter {
                 alarm.set(
                         alarm.RTC_WAKEUP,
                         cal.getTimeInMillis(),
-                        PendingIntent.getActivity(context, 0, new Intent(context, ProfileActivity.class), 0)
+                        PendingIntent.getService(context, 0, new Intent(context, NotificationPush.class), 0)
                 );
                 Toast.makeText(context,"we are setting notification@"+date+" "+time,Toast.LENGTH_LONG).show();
 

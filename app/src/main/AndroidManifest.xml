@@ -70,6 +70,10 @@
             android:name=".Myservice"
             >
         </service>
+        <service
+            android:name=".NotificationPush"
+            >
+        </service>
     </application>
 
 </manifest>
