@@ -136,7 +136,7 @@ public class MapsActivity extends AppCompatActivity
                 return true;
             }
             case R.id.clear: {
-                clearGeofence();
+//                clearGeofence();
                 return true;
             }
         }
