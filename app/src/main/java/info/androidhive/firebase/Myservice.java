@@ -51,7 +51,7 @@ public class Myservice extends Service {
                                 .child("users").child(userId).child("event").child(EventId);
                         EventDatabaseReference.setValue(false);
                         //sending notification
-                        Intent intent2 = new Intent(Myservice.this, ProfileActivity.class);
+                        Intent intent2 = new Intent(Myservice.this, UpcomingEventActivity.class);
                         PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
 
                         // Build notification
