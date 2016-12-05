@@ -64,7 +64,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".UpcomingEventActivity" />
-        <activity android:name=".FriendList" ></activity>
+        <activity android:name=".FriendList"></activity>
     </application>
 
 </manifest>
