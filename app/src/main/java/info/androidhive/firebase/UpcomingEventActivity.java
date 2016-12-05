@@ -1,6 +1,9 @@
 package info.androidhive.firebase;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +26,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class UpcomingEventActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -41,6 +49,8 @@ public class UpcomingEventActivity extends AppCompatActivity {
     private String[] eventListView;
     private ArrayList<String> eventDateList = new ArrayList<>();
     private ArrayList<String> eventTimeList = new ArrayList<>();
+    private ArrayList<String> eventLong = new ArrayList<>();
+    private ArrayList<String> eventLat = new ArrayList<>();
 
 
     @Override
@@ -108,10 +118,14 @@ public class UpcomingEventActivity extends AppCompatActivity {
                                         String eventName = (String) abc.get("eventName");
                                         String eventDate = (String) abc.get("date");
                                         String eventTime = (String) abc.get("time");
+                                        String longtitute = (String) abc.get("longtitute");
+                                        String latitute = (String) abc.get("latitute");
                                         eventDateList.add(eventDate);
                                         eventNameList.add(eventName);
                                         eventTimeList.add(eventTime);
-                                        Toast.makeText(UpcomingEventActivity.this, "ddd", Toast.LENGTH_SHORT).show();
+                                        eventLong.add(longtitute);
+                                        eventLat.add(latitute);
+                                        //Toast.makeText(UpcomingEventActivity.this, eventLong + " " +eventLat, Toast.LENGTH_SHORT).show();
 
 
 
@@ -121,9 +135,9 @@ public class UpcomingEventActivity extends AppCompatActivity {
                                         //Log.i(TAG, "blablablbala");
                                     }
 
-                                        lvAdapter = new MyCustomAdapter(UpcomingEventActivity.this, eventNameList, eventDateList, eventTimeList);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                                        lvAdapter = new MyCustomAdapter(UpcomingEventActivity.this, eventNameList, eventDateList, eventTimeList,eventLong,eventLat);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                                         lvEvents.setAdapter(lvAdapter);
-                                        Toast.makeText(UpcomingEventActivity.this, Integer.toString(eventNameList.size()), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(UpcomingEventActivity.this, Integer.toString(eventNameList.size()), Toast.LENGTH_SHORT).show();
 
                                         //Toast.makeText(getBaseContext(), eve, Toast.LENGTH_SHORT).show();
 
@@ -171,14 +185,18 @@ class MyCustomAdapter extends BaseAdapter {
     ArrayList<String> eventNameList;
     ArrayList<String> eventDateList;
     ArrayList<String> eventTimeList;
+    ArrayList<String> eventLong;
+    ArrayList<String> eventLat;
 
 
-    public MyCustomAdapter(Context aContext, ArrayList<String> eventNameList, ArrayList<String> eventDateList,ArrayList<String> eventTimeList) {
+
+    public MyCustomAdapter(Context aContext, ArrayList<String> eventNameList, ArrayList<String> eventDateList,ArrayList<String> eventTimeList, ArrayList<String> eventLong, ArrayList<String> eventLat) {
         context = aContext;
         this.eventNameList=eventNameList;
         this.eventDateList=eventDateList;
         this.eventTimeList=eventTimeList;
-
+        this.eventLong=eventLong;
+        this.eventLat=eventLat;
     }
 
 
@@ -198,7 +216,7 @@ class MyCustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View row;  //this will refer to the row to be inflated or displayed if it's already been displayed. (listview_row.xml)
         if (convertView == null){  //indicates this is the first time we are creating this row.
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);  //CRASH
@@ -221,6 +239,33 @@ class MyCustomAdapter extends BaseAdapter {
         textViewTime.setText(eventTimeList.get(position));
         //textViewLocation.setText("location");
 
+        textViewName.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(context, MapsActivity.class);
+                intent.putExtra("long",Double.parseDouble(eventLong.get(position)));
+                intent.putExtra("lat", Double.parseDouble(eventLat.get(position)));
+                context.startActivity(intent);
+
+            }
+        });
+
+        notifyMe.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                String time=eventTimeList.get(position);
+                String date = eventDateList.get(position);
+                Calendar cal = new GregorianCalendar();
+                //cal.set(selectedYear, selectedMonth, selectedDay,selectedHour, selectedMinute);
+                //cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
+                cal.set(Calendar.HOUR_OF_DAY, 18);
+                cal.set(Calendar.MINUTE, 32);
+                AlarmManager alarm = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                alarm.set(
+                        alarm.RTC_WAKEUP,
+                        cal.getTimeInMillis(),
+                        PendingIntent.getActivity(context, 0, new Intent(context, ProfileActivity.class), 0)
+                );
+            }
+        });
 
 
 
