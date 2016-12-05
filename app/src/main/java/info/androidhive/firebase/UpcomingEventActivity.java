@@ -242,6 +242,29 @@ class MyCustomAdapter extends BaseAdapter {
         textViewName.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(context, MapsActivity.class);
+                String time= eventTimeList.get(position);
+                String[] splitTime_Parts = time.split(":");
+                String saparated_Hour = splitTime_Parts[0];
+                String saparated_Min = splitTime_Parts[1];
+                int selectedHour = Integer.valueOf(saparated_Hour);
+                int selectedMinute = Integer.valueOf(saparated_Min);
+
+                String date = eventDateList.get(position);
+                String[] splitDate_Parts = date.split("-");
+                String saparated_Day = splitDate_Parts[2];
+                String saparated_Month = splitDate_Parts[1];
+                String saparated_Year = splitDate_Parts[0];
+
+                int selectedDay = Integer.valueOf(saparated_Day);
+                int selectedMonth = Integer.valueOf(saparated_Month);
+                int selectedYear =  Integer.valueOf(saparated_Year);
+
+                intent.putExtra("hour", selectedHour);
+                intent.putExtra("min", selectedMinute);
+                intent.putExtra("day", selectedDay);
+                intent.putExtra("month", selectedMonth);
+                intent.putExtra("year", selectedYear);
+
                 intent.putExtra("long",Double.parseDouble(eventLong.get(position)));
                 intent.putExtra("lat", Double.parseDouble(eventLat.get(position)));
                 context.startActivity(intent);
