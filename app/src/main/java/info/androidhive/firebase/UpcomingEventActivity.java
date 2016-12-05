@@ -260,21 +260,38 @@ class MyCustomAdapter extends BaseAdapter {
 
                 String date = eventDateList.get(position);
                 String[] splitDate_Parts = date.split("-");
-                String saparated_Day = splitDate_Parts[0];
+                String saparated_Day = splitDate_Parts[2];
                 String saparated_Month = splitDate_Parts[1];
-                String saparated_Year = splitDate_Parts[2];
+                String saparated_Year = splitDate_Parts[0];
 
                 int selectedDay = Integer.valueOf(saparated_Day);
                 int selectedMonth = Integer.valueOf(saparated_Month);
                 int selectedYear =  Integer.valueOf(saparated_Year);
                 Calendar cal = new GregorianCalendar();
-                cal.set(selectedYear, selectedMonth, selectedDay,selectedHour, selectedMinute);
+                cal.set(Calendar.MONTH,selectedMonth-1);//when we set the time be aware that month starts at 0!
+                cal.set(Calendar.YEAR,selectedYear);
+                cal.set(Calendar.DAY_OF_MONTH,selectedDay);
+                cal.set(Calendar.HOUR_OF_DAY,selectedHour);
+                cal.set(Calendar.MINUTE,selectedMinute-5);
+                cal.set(Calendar.SECOND,0);
+                /*
+                Log.e("BOSTON", "current time:"+System.currentTimeMillis());
+                Log.e("BOSTON", "cal time:"+cal.getTimeInMillis());
+                Log.e("BOSTON", "Month"+selectedMonth);
+                Log.e("BOSTON", "Day:"+selectedDay);
+                Log.e("BOSTON", "Hour"+selectedHour);
+                Log.e("BOSTON", "Min:"+selectedMinute);*/
+
+
+                //Log.e("BOSTON", "TIME DIFFERENCE:"+cal.getTimeInMillis()-System.currentTimeMillis());
                 AlarmManager alarm = (AlarmManager)context.getSystemService(ALARM_SERVICE);
                 alarm.set(
                         alarm.RTC_WAKEUP,
                         cal.getTimeInMillis(),
                         PendingIntent.getActivity(context, 0, new Intent(context, ProfileActivity.class), 0)
                 );
+                Toast.makeText(context,"we are setting notification@"+date+" "+time,Toast.LENGTH_LONG).show();
+
             }
         });
 
