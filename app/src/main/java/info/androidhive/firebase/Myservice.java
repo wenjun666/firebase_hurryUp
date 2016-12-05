@@ -34,7 +34,6 @@ public class Myservice extends Service {
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String Name = user.getDisplayName();
         final String userId = user.getUid();
         //get my own refrence
         UserDatabaseReference = FirebaseDatabase.getInstance().getReference()

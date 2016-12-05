@@ -146,8 +146,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
          * Using query
          * ********************************
          */
-        //start checking service! I have got the power!
-        startService(new Intent(ProfileActivity.this, Myservice.class));
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -161,6 +159,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 }
                 else{
                     user_profile_name.setText(user.getEmail());
+                    //start checking service! I have got the power!
+                    startService(new Intent(ProfileActivity.this, Myservice.class));
                     Toast.makeText(getBaseContext(),user.getEmail(),Toast.LENGTH_LONG).show();
                 }
             }
