@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -212,12 +213,14 @@ class MyCustomAdapter extends BaseAdapter {
         TextView textViewName=(TextView)row.findViewById(R.id.textViewName);
         TextView textViewDate=(TextView)row.findViewById(R.id.textViewDate);
         TextView textViewTime=(TextView)row.findViewById(R.id.textViewTime);
-        TextView textViewLocation=(TextView)row.findViewById(R.id.textViewLocation);
+        //TextView textViewLocation=(TextView)row.findViewById(R.id.textViewLocation);
+        Button notifyMe = (Button) row.findViewById(R.id.notifyMe);
 
         textViewName.setText(eventNameList.get(position));
         textViewDate.setText(eventDateList.get(position));
         textViewTime.setText(eventTimeList.get(position));
-        textViewLocation.setText("location");
+        //textViewLocation.setText("location");
+
 
 
 
