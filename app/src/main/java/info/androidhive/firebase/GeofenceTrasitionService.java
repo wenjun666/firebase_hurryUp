@@ -35,8 +35,7 @@ public class GeofenceTrasitionService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent
-                                              intent) {
+    protected void onHandleIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         // Handling errors
         if ( geofencingEvent.hasError() ) {
