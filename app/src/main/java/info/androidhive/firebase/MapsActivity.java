@@ -80,8 +80,8 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
 
         // Fake numbers right now
-        latitude = 22.22222;
-        longitude = 22.33333;
+        latitude = 23.021777;
+        longitude = 113.787419;
         location = new LatLng(latitude, longitude);
 
         // initialize GoogleMaps
@@ -331,9 +331,9 @@ public class MapsActivity extends AppCompatActivity
     private void startGeofence() {
         Log.i(TAG, "startGeofence()");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
+//            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
             Geofence geofence2 = createGeofence(location, GEOFENCE_RADIUS);
-            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
+            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence2 );
             addGeofence( geofenceRequest );
         } else {
             Log.e(TAG, "Geofence marker is null");
