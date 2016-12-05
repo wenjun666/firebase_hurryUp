@@ -74,6 +74,7 @@
             android:name=".NotificationPush"
             >
         </service>
+        <service android:name=".GeofenceTrasitionService" />
     </application>
 
 </manifest>
