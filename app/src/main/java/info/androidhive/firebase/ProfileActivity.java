@@ -54,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private String email,name,gender,score,userId,phone;
     private Set<String> friendList;
     private Button upcomingEvent;
+    private Button topTen;
 
     private GestureDetectorCompat GD;
 
@@ -69,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         user_profile_name = (TextView)findViewById(R.id.user_profile_name);
         user_score = (TextView) findViewById(R.id.user_profile_short_bio);
         upcomingEvent = (Button) findViewById(R.id.btnUpcomingEvent);
+        topTen = (Button) findViewById(R.id.btnTopTen);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -111,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if user profile exists, get all the profile info
                 if (user_profile != null) {  //check if the user already has the
                     for (Map.Entry<String, Map<String, Object>> value : user_profile.entrySet()) {
-
+                        // abc is reference to one user.
                         Map<String, Object> abc = value.getValue();
 
                         name = abc.get("name").toString();
@@ -123,10 +125,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         Map<String, Boolean> friends = (Map) abc.get("friend");
                         friendList = friends.keySet();
 
-                        //Toast.makeText(ProfileActivity.this, email + name + gender + score + friendList, Toast.LENGTH_LONG).show();
-
-
-                        //Log.i(TAG, "blablablbala");
                     }
                 }
                 // if null, create new user
@@ -228,6 +226,12 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         upcomingEvent.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(getBaseContext(),UpcomingEventActivity.class);
+                startActivity(intent);
+            }
+        });
+        topTen.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),TopTenUserActivity.class);
                 startActivity(intent);
             }
         });
