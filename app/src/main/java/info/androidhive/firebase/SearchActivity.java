@@ -119,6 +119,7 @@ public class SearchActivity extends AppCompatActivity {
             mView = v;
         }
 
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
