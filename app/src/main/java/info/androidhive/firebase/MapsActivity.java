@@ -80,8 +80,10 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
 
         // Fake numbers right now
-        latitude = 42.354173;
-        longitude = -71.124352;
+        Intent locationIntent = getIntent();
+        Bundle loc = locationIntent.getExtras();
+        latitude = loc.getDouble("lat");
+        longitude = loc.getDouble("long");
 //        42.354173, -71.124352
         location = new LatLng(latitude, longitude);
 
@@ -368,7 +370,6 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private PendingIntent geoFencePendingIntent;
-    private final int GEOFENCE_REQ_CODE = 0;
     private PendingIntent createGeofencePendingIntent() {
         Log.d(TAG, "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
@@ -376,7 +377,7 @@ public class MapsActivity extends AppCompatActivity
 
         Intent intent = new Intent( this, GeofenceTrasitionService.class);
         return PendingIntent.getService(
-                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     // Add the created GeofenceRequest to the device's monitoring list
