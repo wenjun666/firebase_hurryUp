@@ -275,12 +275,12 @@ class MyCustomAdapter extends BaseAdapter {
                 cal.set(Calendar.MINUTE,selectedMinute-5);
                 cal.set(Calendar.SECOND,0);
 
-                Log.e("BOSTON", "current time:"+System.currentTimeMillis());
-                Log.e("BOSTON", "cal time:"+cal.getTimeInMillis());
-                Log.e("BOSTON", "Month"+selectedMonth);
-                Log.e("BOSTON", "Day:"+selectedDay);
-                Log.e("BOSTON", "Hour"+selectedHour);
-                Log.e("BOSTON", "Min:"+selectedMinute);
+//                Log.e("BOSTON", "current time:"+System.currentTimeMillis());
+//                Log.e("BOSTON", "cal time:"+cal.getTimeInMillis());
+//                Log.e("BOSTON", "Month"+selectedMonth);
+//                Log.e("BOSTON", "Day:"+selectedDay);
+//                Log.e("BOSTON", "Hour"+selectedHour);
+//                Log.e("BOSTON", "Min:"+selectedMinute);
 
 
                 //Log.e("BOSTON", "TIME DIFFERENCE:"+cal.getTimeInMillis()-System.currentTimeMillis());
