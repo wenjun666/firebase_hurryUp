@@ -30,6 +30,8 @@ public class GeofenceTrasitionService extends IntentService {
 
     public static final int GEOFENCE_NOTIFICATION_ID = 0;
 
+    public boolean arrived = false;
+
     public GeofenceTrasitionService() {
         super(TAG);
     }
@@ -37,6 +39,7 @@ public class GeofenceTrasitionService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        long eventTime = intent.getLongExtra("eventTime", 0);
         // Handling errors
         if ( geofencingEvent.hasError() ) {
             String errorMsg = getErrorString(geofencingEvent.getErrorCode() );
@@ -48,6 +51,7 @@ public class GeofenceTrasitionService extends IntentService {
         // Check if the transition type is of interest
         if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ) {
+
             // Get the geofence that were triggered
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 

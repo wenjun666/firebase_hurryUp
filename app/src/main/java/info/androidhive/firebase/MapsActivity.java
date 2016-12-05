@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -66,6 +70,9 @@ public class MapsActivity extends AppCompatActivity
     private Double longitude;
     private Double latitude;
 
+    private int year, month, day, hour, min;
+    private Calendar cal;
+
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
     public static Intent makeNotificationIntent(Context context, String msg) {
@@ -79,13 +86,30 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // Fake numbers right now
+        // Get the location right now
         Intent locationIntent = getIntent();
-        Bundle loc = locationIntent.getExtras();
-        latitude = loc.getDouble("lat");
-        longitude = loc.getDouble("long");
+        Bundle data = locationIntent.getExtras();
+        latitude = data.getDouble("lat");
+        longitude = data.getDouble("long");
 //        42.354173, -71.124352
         location = new LatLng(latitude, longitude);
+
+        //Get the event time
+        year = data.getInt("year");
+        month = data.getInt("month");
+        day = data.getInt("day");
+        min = data.getInt("min");
+        hour = data.getInt("hour");
+
+        // Initialize the cal
+        cal = new GregorianCalendar();
+        cal.set(Calendar.MONTH,month-1);//when we set the time be aware that month starts at 0!
+        cal.set(Calendar.YEAR,year);
+        cal.set(Calendar.DAY_OF_MONTH,day);
+        cal.set(Calendar.HOUR_OF_DAY,hour);
+        cal.set(Calendar.MINUTE,min);
+        cal.set(Calendar.SECOND,0);
+
 
         // initialize GoogleMaps
         initGMaps();
@@ -376,6 +400,9 @@ public class MapsActivity extends AppCompatActivity
             return geoFencePendingIntent;
 
         Intent intent = new Intent( this, GeofenceTrasitionService.class);
+        // Send event time to intent service
+        intent.putExtra("eventTime", cal.getTimeInMillis());
+
         return PendingIntent.getService(
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
