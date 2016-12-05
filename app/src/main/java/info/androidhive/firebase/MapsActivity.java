@@ -80,8 +80,9 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
 
         // Fake numbers right now
-        latitude = 23.021777;
-        longitude = 113.787419;
+        latitude = 42.354173;
+        longitude = -71.124352;
+//        42.354173, -71.124352
         location = new LatLng(latitude, longitude);
 
         // initialize GoogleMaps
@@ -206,7 +207,7 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
-        markerForGeofence(latLng);
+//        markerForGeofence(latLng);
     }
 
     @Override
@@ -330,9 +331,10 @@ public class MapsActivity extends AppCompatActivity
     // Start Geofence creation process
     private void startGeofence() {
         Log.i(TAG, "startGeofence()");
+        markerForGeofence(location);
         if( geoFenceMarker != null ) {
 //            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
-            Geofence geofence2 = createGeofence(location, GEOFENCE_RADIUS);
+            Geofence geofence2 = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence2 );
             addGeofence( geofenceRequest );
         } else {
