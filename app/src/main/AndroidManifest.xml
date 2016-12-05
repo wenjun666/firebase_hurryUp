@@ -65,6 +65,11 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".UpcomingEventActivity" />
         <activity android:name=".FriendList"></activity>
+        <activity android:name=".TopTenUserActivity"/>
+        <service
+            android:name=".Myservice"
+            >
+        </service>
     </application>
 
 </manifest>

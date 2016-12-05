@@ -46,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private CharSequence method[] = new CharSequence[] {"Gallery", "Take a Photo"};
     static final int PICK_PHOTO = 1;
     static final int CAPTURE_PHOTO =2;
-
     private FirebaseAuth auth;
     private DatabaseReference mPostReference;
     private FirebaseAuth.AuthStateListener authListener;
@@ -54,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private String email,name,gender,score,userId,phone;
     private Set<String> friendList;
+    private Button upcomingEvent;
+    private Button topTen;
 
     private GestureDetectorCompat GD;
 
@@ -68,12 +69,16 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
         user_profile_name = (TextView)findViewById(R.id.user_profile_name);
         user_score = (TextView) findViewById(R.id.user_profile_short_bio);
+        upcomingEvent = (Button) findViewById(R.id.btnUpcomingEvent);
+        topTen = (Button) findViewById(R.id.btnTopTen);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //start checking service! I have got the power!
+        startService(new Intent(ProfileActivity.this, Myservice.class));
         //Initialize Database:
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
@@ -110,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if user profile exists, get all the profile info
                 if (user_profile != null) {  //check if the user already has the
                     for (Map.Entry<String, Map<String, Object>> value : user_profile.entrySet()) {
-
+                        // abc is reference to one user.
                         Map<String, Object> abc = value.getValue();
 
                         name = abc.get("name").toString();
@@ -122,10 +127,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         Map<String, Boolean> friends = (Map) abc.get("friend");
                         friendList = friends.keySet();
 
-                        //Toast.makeText(ProfileActivity.this, email + name + gender + score + friendList, Toast.LENGTH_LONG).show();
-
-
-                        //Log.i(TAG, "blablablbala");
                     }
                 }
                 // if null, create new user
@@ -146,8 +147,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
          * Using query
          * ********************************
          */
-
-
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -224,6 +223,18 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
             }
 
         });
+        upcomingEvent.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),UpcomingEventActivity.class);
+                startActivity(intent);
+            }
+        });
+        topTen.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),TopTenUserActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -233,6 +244,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
     //sign out method
     public void signOut() {
+        //start checking service! I have got the power!
+        stopService(new Intent(ProfileActivity.this, Myservice.class));
         auth.signOut();
         Intent signOutIntent = new Intent(this, LoginActivity.class);
         startActivity(signOutIntent);
@@ -342,4 +355,5 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
         Log.i(TAG, "new user key:" + new_user_key);
     }
+
 }

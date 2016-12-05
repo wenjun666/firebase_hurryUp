@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +25,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
 public class AddFriendActivity extends AppCompatActivity {
-    private DatabaseReference mPostReference,UserDatabaseReference;
+    private DatabaseReference mPostReference,UserDatabaseReference, FriendDatabaseReference;
     //UI
     private TextView inputText;
-    private Button btnSearch;
+    private Button btnSearch, btnFinishEvent;
     private RecyclerView friendList;
+
+    private static final String TAG = AddFriendActivity.class.getSimpleName();
 
 
     @Override
@@ -43,6 +52,14 @@ public class AddFriendActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String Email = user.getEmail();
         final String userId = user.getUid();
+
+        //Get the event key
+        Intent eventIntent = getIntent();
+        final String eventId = eventIntent.getExtras().getString("eventKey");
+//        mPostReferenceEvent = FirebaseDatabase.getInstance().getReference()
+//                .child("events").child(eventId);
+
+
         //final Map<String, Boolean> friends = (Map) user.get("friend");
         UserDatabaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(userId);
@@ -50,9 +67,11 @@ public class AddFriendActivity extends AppCompatActivity {
                 .child("users");
         inputText = (TextView)findViewById(R.id.textView2);
         btnSearch =(Button)findViewById(R.id.btnSearch);
+        btnFinishEvent = (Button)findViewById(R.id.btnFinishEvent);
         friendList = (RecyclerView) findViewById(R.id.friendList);
         friendList.setHasFixedSize(true);
         friendList.setLayoutManager(new LinearLayoutManager(this));
+
 
         btnSearch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
@@ -75,6 +94,33 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
 
+        btnFinishEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Query checkEventQuery = mPostReference.child(userId).child("event").orderByKey().equalTo(eventId);
+                checkEventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> hasEvent = (HashMap<String, Object>) dataSnapshot.getValue();
+                        if (hasEvent == null) {
+                            mPostReference.child(userId).child("event").child(eventId).setValue(true);
+                            backToProfile();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "You have already in this event", Toast.LENGTH_SHORT).show();
+                            backToProfile();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
+
         final FirebaseRecyclerAdapter<AppUser, SearchActivity.UserListViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AppUser, SearchActivity.UserListViewHolder>(
                         AppUser.class,
@@ -86,17 +132,59 @@ public class AddFriendActivity extends AppCompatActivity {
 
 
                     @Override
-                    protected void populateViewHolder(SearchActivity.UserListViewHolder viewHolder, AppUser user1, final int position) {
-                        final String UserName = user1.getName();
-                        viewHolder.mText.setText(UserName);
+                    protected void populateViewHolder(SearchActivity.UserListViewHolder viewHolder, AppUser friend, final int position) {
+                        final String friendName = friend.getName();
+                        viewHolder.mText.setText(friendName);
                         viewHolder.mView.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view) {
 
-                                UserDatabaseReference.child("friend").child(UserName).setValue(true);
-                                //Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getApplicationContext(),UserName+":true"+Email, Toast.LENGTH_SHORT).show();
-                                //adapter.getRef(position).removeValue();
+//                                UserDatabaseReference.child("friend").child(friendName).setValue(true);
+//                                //Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(),UserName+":true"+Email, Toast.LENGTH_SHORT).show();
+//                                //adapter.getRef(position).removeValue();
+
+                                // Get the user you click
+                                Query friendQuery = mPostReference.orderByChild("name").equalTo(friendName);
+                                friendQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        // Get the selected friend profile
+                                        Map<String, Map<String, Object>> friend_profile = (HashMap<String, Map<String, Object>>) dataSnapshot.getValue();
+                                        Log.i(TAG, "Friend Event List");
+
+                                        // Get the selected firend ID
+                                        final String friendId = friend_profile.keySet().iterator().next();
+
+                                        // Check if the invited friend already has this event by using eventID
+                                        Query checkEventQuery = mPostReference.child(friendId).child("event").orderByKey().equalTo(eventId);
+                                        checkEventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Map<String, Object> hasEvent = (HashMap<String, Object>) dataSnapshot.getValue();
+                                                if (hasEvent == null) {
+
+                                                    mPostReference.child(friendId).child("event").child(eventId).setValue(true);
+                                                }
+                                                else {
+                                                    Toast.makeText(getApplicationContext(), "You have already invited this friend", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
                             }
                         });
                     }
@@ -157,6 +245,11 @@ public class AddFriendActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void backToProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
 }

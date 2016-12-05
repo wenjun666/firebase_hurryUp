@@ -91,9 +91,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_layout"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -101,7 +102,8 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="@string/upcomingEvent" />
+                android:text="@string/upcomingEvent"
+                android:id="@+id/btnUpcomingEvent" />
 
             <Button
                 android:id="@+id/createButton"
@@ -115,6 +117,17 @@
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/createEvent" />
+
+            <Button
+                android:text="@string/topTem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="#fff"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:id="@+id/btnTopTen"
+                android:layout_weight="0.70" />
 
         </LinearLayout>
 
