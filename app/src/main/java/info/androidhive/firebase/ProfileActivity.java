@@ -77,8 +77,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //start checking service! I have got the power!
-        startService(new Intent(ProfileActivity.this, Myservice.class));
         //Initialize Database:
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
@@ -90,6 +88,9 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
             email = "";
         } else {
             email = user.getEmail();
+        }
+        if (name==null){
+            name = email;
         }
         userId = user.getUid();
 
@@ -128,11 +129,15 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         friendList = friends.keySet();
 
                     }
+                    //start checking service! I have got the power!
+                    startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
                 // if null, create new user
                 else {
                     // Push a new user profil
                     createProfile(userId, email, name, gender, phone, score);
+                    //start checking service! I have got the power!
+                    startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
 
             }

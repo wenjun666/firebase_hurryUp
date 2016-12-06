@@ -43,33 +43,38 @@ public class Myservice extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String,Object> Events= (HashMap<String,Object>) dataSnapshot.getValue();
-                for (Map.Entry<String,Object> value : Events.entrySet()) {
-                    String EventId = value.getKey();
-                    Boolean EventNotNotified = (Boolean)value.getValue();
-                    if (EventNotNotified){
-                        EventDatabaseReference= FirebaseDatabase.getInstance().getReference()
-                                .child("users").child(userId).child("event").child(EventId);
-                        EventDatabaseReference.setValue(false);
-                        //sending notification
-                        Intent intent2 = new Intent(Myservice.this, UpcomingEventActivity.class);
-                        PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
+                if (Events == null){
+                    stopSelf();
+                }else{
+                    for (Map.Entry<String,Object> value : Events.entrySet()) {
+                        String EventId = value.getKey();
+                        Boolean EventNotNotified = (Boolean)value.getValue();
+                        if (EventNotNotified){
+                            EventDatabaseReference= FirebaseDatabase.getInstance().getReference()
+                                    .child("users").child(userId).child("event").child(EventId);
+                            EventDatabaseReference.setValue(false);
+                            //sending notification
+                            Intent intent2 = new Intent(Myservice.this, UpcomingEventActivity.class);
+                            PendingIntent pIntent = PendingIntent.getActivity(Myservice.this, (int) System.currentTimeMillis(), intent2, 0);
 
-                        // Build notification
-                        // Actions are just fake
-                        Notification noti = new Notification.Builder(Myservice.this)
-                                .setContentTitle("You are invited to a new Event! Check it out!")
-                                .setContentText("Subject").setSmallIcon(R.drawable.ic_stat_name)
-                                .setContentIntent(pIntent)
-                                .addAction(R.drawable.ic_stat_name, "Call", pIntent)
-                                .addAction(R.drawable.ic_stat_name, "More", pIntent)
-                                .addAction(R.drawable.ic_stat_name, "And more", pIntent).build();
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
-                        // hide the notification after its selected
-                        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+                            // Build notification
+                            // Actions are just fake
+                            Notification noti = new Notification.Builder(Myservice.this)
+                                    .setContentTitle("You are invited to a new Event! Check it out!")
+                                    .setContentText("Subject").setSmallIcon(R.drawable.ic_stat_name)
+                                    .setContentIntent(pIntent)
+                                    .addAction(R.drawable.ic_stat_name, "Call", pIntent)
+                                    .addAction(R.drawable.ic_stat_name, "More", pIntent)
+                                    .addAction(R.drawable.ic_stat_name, "And more", pIntent).build();
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+                            // hide the notification after its selected
+                            noti.flags |= Notification.FLAG_AUTO_CANCEL;
 
-                        notificationManager.notify(0, noti);
+                            notificationManager.notify(0, noti);
+                        }
+
+
                     }
-
 
                 }
 
