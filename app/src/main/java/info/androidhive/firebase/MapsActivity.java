@@ -162,11 +162,13 @@ public class MapsActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch ( item.getItemId() ) {
             case R.id.geofence: {
+                // when click the action bar start geofence
                 startGeofence();
                 //startGeofence();
                 return true;
             }
             case R.id.clear: {
+                // Start
                 startGeofence();
 //                clearGeofence();
                 return true;
@@ -368,6 +370,7 @@ public class MapsActivity extends AppCompatActivity
 //            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
             Geofence geofence2 = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence2 );
+            // Check if you have already arrived and was added score
             if (!arrived) {
                 addGeofence(geofenceRequest);
             }
