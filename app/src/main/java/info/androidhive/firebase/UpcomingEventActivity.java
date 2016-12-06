@@ -267,6 +267,8 @@ class MyCustomAdapter extends BaseAdapter {
 
                 intent.putExtra("long",Double.parseDouble(eventLong.get(position)));
                 intent.putExtra("lat", Double.parseDouble(eventLat.get(position)));
+
+                intent.putExtra("arrived", false);
                 context.startActivity(intent);
 
             }

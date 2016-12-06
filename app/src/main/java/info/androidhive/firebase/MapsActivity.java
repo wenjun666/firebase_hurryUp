@@ -72,11 +72,12 @@ public class MapsActivity extends AppCompatActivity
 
     private int year, month, day, hour, min;
     private Calendar cal;
+    boolean arrived = false;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
     public static Intent makeNotificationIntent(Context context, String msg) {
-        Intent intent = new Intent( context, MapsActivity.class );
+        Intent intent = new Intent( context, ProfileActivity.class );
         intent.putExtra( NOTIFICATION_MSG, msg );
         return intent;
     }
@@ -89,8 +90,12 @@ public class MapsActivity extends AppCompatActivity
         // Get the location right now
         Intent locationIntent = getIntent();
         Bundle data = locationIntent.getExtras();
+
+        arrived = data.getBoolean("arrived");
+
         latitude = data.getDouble("lat");
         longitude = data.getDouble("long");
+
 //        42.354173, -71.124352
         location = new LatLng(latitude, longitude);
 
@@ -162,6 +167,7 @@ public class MapsActivity extends AppCompatActivity
                 return true;
             }
             case R.id.clear: {
+                startGeofence();
 //                clearGeofence();
                 return true;
             }
@@ -362,7 +368,9 @@ public class MapsActivity extends AppCompatActivity
 //            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
             Geofence geofence2 = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence2 );
-            addGeofence( geofenceRequest );
+            if (!arrived) {
+                addGeofence(geofenceRequest);
+            }
         } else {
             Log.e(TAG, "Geofence marker is null");
         }
@@ -378,7 +386,7 @@ public class MapsActivity extends AppCompatActivity
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
-                .setExpirationDuration( GEO_DURATION )
+                .setExpirationDuration( cal.getTimeInMillis() - System.currentTimeMillis() )  // Set the expire duration
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
                         | Geofence.GEOFENCE_TRANSITION_EXIT )
                 .build();
@@ -402,6 +410,8 @@ public class MapsActivity extends AppCompatActivity
         Intent intent = new Intent( this, GeofenceTrasitionService.class);
         // Send event time to intent service
         intent.putExtra("eventTime", cal.getTimeInMillis());
+        intent.putExtra("longitude", longitude);
+        intent.putExtra("latitude", latitude);
 
         return PendingIntent.getService(
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
