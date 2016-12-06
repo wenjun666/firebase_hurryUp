@@ -54,4 +54,7 @@
     <string name="gotoSearchFriend">Search for New Friend!</string>
     <string name="topTem">Top Ten Users!</string>
     <string name="notifyMe">Notify Me!</string>
+    <string name="eventStarted">Your Party Just Started!</string>
+    <string name="YourNewestScore">Your Newest Score Is:</string>
+    <string name="GoBackProfile">Go Back To My Porfile!</string>
 </resources>

@@ -29,7 +29,7 @@ public class AppUser {
         this.score= score;
         this.location=location;
         this.email=email;
-        this.friend=friend;
+        //this.friend=friend;
     }
 
     public String getName() {

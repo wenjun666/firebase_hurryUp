@@ -51,7 +51,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private FirebaseAuth.AuthStateListener authListener;
     private TextView user_profile_name, user_score;
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private String email,name,gender,score,userId,phone;
+    private String email,name,gender,userId,phone;
+    private long score;
     private Set<String> friendList;
     private Button upcomingEvent;
     private Button topTen;
@@ -94,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         }
         userId = user.getUid();
 
-        score = "0";
+        score = 100;
         phone = "";
         gender = "";
 
@@ -121,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
                         name = abc.get("name").toString();
                         gender = abc.get("gender").toString();
-                        score = abc.get("score").toString();
+                        score = (long)abc.get("score");
 
                         user_profile_name.setText(name);
                         user_score.setText("score: " + score);
@@ -135,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if null, create new user
                 else {
                     // Push a new user profil
-                    createProfile(userId, email, name, gender, phone, score);
+                    createProfile(userId, email, name, gender, phone, 0);
                     //start checking service! I have got the power!
                     startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
@@ -349,14 +350,17 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
 
     // Helper method Creating new profile
-    public void createProfile(String userId, String email, String name, String gender, String phone, String score) {
+    public void createProfile(String userId, String email, String name, String gender, String phone, long score) {
         String new_user_key = userId;
+        AppUser newUser = new AppUser(email,name,"",gender,phone,score);
+        /*
         mPostReference.child(new_user_key).child("email").setValue(email);
         mPostReference.child(new_user_key).child("name").setValue(name);
         mPostReference.child(new_user_key).child("gender").setValue(gender);
         mPostReference.child(new_user_key).child("location").setValue("");
         mPostReference.child(new_user_key).child("phone").setValue(phone);
-        mPostReference.child(new_user_key).child("score").setValue(score);
+        mPostReference.child(new_user_key).child("score").setValue(score);*/
+        mPostReference.child((new_user_key)).setValue(newUser);
         mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
         Log.i(TAG, "new user key:" + new_user_key);
     }

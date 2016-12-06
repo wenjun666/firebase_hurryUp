@@ -28,10 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,6 +53,7 @@ public class UpcomingEventActivity extends AppCompatActivity {
     private ArrayList<String> eventTimeList = new ArrayList<>();
     private ArrayList<String> eventLong = new ArrayList<>();
     private ArrayList<String> eventLat = new ArrayList<>();
+    private ArrayList<String> eventKeyList = new ArrayList<>();
 
 
     @Override
@@ -91,7 +94,10 @@ public class UpcomingEventActivity extends AppCompatActivity {
                         Map<String, Boolean> events = (Map) abc.get("event");
                         eventList = events.keySet();
                         eventListView = eventList.toArray(new String[eventList.size()]);
+                        List<String> l = Arrays.<String>asList(eventListView);
 
+                        // if List<String> isnt specific enough:
+                        eventKeyList = new ArrayList<String>(l);
 
                         //Toast.makeText(UpcomingEventActivity.this, "b"+eventListView.length, Toast.LENGTH_SHORT).show();
 
@@ -125,6 +131,8 @@ public class UpcomingEventActivity extends AppCompatActivity {
                                         eventTimeList.add(eventTime);
                                         eventLong.add(longtitute);
                                         eventLat.add(latitute);
+                                        //eventKeyList.add(eventListView[i]);
+
                                         //Toast.makeText(UpcomingEventActivity.this, eventLong + " " +eventLat, Toast.LENGTH_SHORT).show();
 
 
@@ -135,7 +143,7 @@ public class UpcomingEventActivity extends AppCompatActivity {
                                         //Log.i(TAG, "blablablbala");
                                     }
 
-                                        lvAdapter = new MyCustomAdapter(UpcomingEventActivity.this, eventNameList, eventDateList, eventTimeList,eventLong,eventLat);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                                        lvAdapter = new MyCustomAdapter(UpcomingEventActivity.this, eventNameList, eventDateList, eventTimeList,eventLong,eventLat, eventKeyList);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                                         lvEvents.setAdapter(lvAdapter);
                                         //Toast.makeText(UpcomingEventActivity.this, Integer.toString(eventNameList.size()), Toast.LENGTH_SHORT).show();
 
@@ -187,16 +195,18 @@ class MyCustomAdapter extends BaseAdapter {
     ArrayList<String> eventTimeList;
     ArrayList<String> eventLong;
     ArrayList<String> eventLat;
+    ArrayList<String> eventKeyList;
 
 
 
-    public MyCustomAdapter(Context aContext, ArrayList<String> eventNameList, ArrayList<String> eventDateList,ArrayList<String> eventTimeList, ArrayList<String> eventLong, ArrayList<String> eventLat) {
+    public MyCustomAdapter(Context aContext, ArrayList<String> eventNameList, ArrayList<String> eventDateList,ArrayList<String> eventTimeList, ArrayList<String> eventLong, ArrayList<String> eventLat, ArrayList<String> eventKeyList) {
         context = aContext;
         this.eventNameList=eventNameList;
         this.eventDateList=eventDateList;
         this.eventTimeList=eventTimeList;
         this.eventLong=eventLong;
         this.eventLat=eventLat;
+        this.eventKeyList=eventKeyList;
     }
 
 
@@ -317,7 +327,8 @@ class MyCustomAdapter extends BaseAdapter {
                 );
 
                 cal.set(Calendar.MINUTE,selectedMinute);
-                Intent intent2 = new Intent(context, ProfileActivity.class);//change the activity here into the new activity.
+                Intent intent2 = new Intent(context, SettlementActivity.class);//change the activity here into the new activity.
+                intent2.putExtra("eventKey", eventKeyList.get(position));
                 PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent2, 0);
                 AlarmManager alarm2 = (AlarmManager)context.getSystemService(ALARM_SERVICE);
                 alarm2.set(
