@@ -1,6 +1,8 @@
 package info.androidhive.firebase;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -91,11 +93,11 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
             email = user.getEmail();
         }
         if (name==null){
-            name = email;
+            name = "Handsome boy";
         }
         userId = user.getUid();
 
-        score = 100;
+        score = 0;
         phone = "";
         gender = "";
 
@@ -136,7 +138,10 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                 // if null, create new user
                 else {
                     // Push a new user profil
-                    createProfile(userId, email, name, gender, phone, 0);
+                    createProfile(userId, email, name, gender, phone, score);
+                    //
+                    user_profile_name.setText(name);
+                    user_score.setText("score: " + score);
                     //start checking service! I have got the power!
                     startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
@@ -252,6 +257,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     public void signOut() {
         //start checking service! I have got the power!
         stopService(new Intent(ProfileActivity.this, Myservice.class));
+        AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarm.cancel(PendingIntent.getService(this, 0, new Intent(this, Myservice.class), 0));
         auth.signOut();
         Intent signOutIntent = new Intent(this, LoginActivity.class);
         startActivity(signOutIntent);

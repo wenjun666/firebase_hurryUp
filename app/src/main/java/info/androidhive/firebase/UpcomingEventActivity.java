@@ -48,7 +48,7 @@ public class UpcomingEventActivity extends AppCompatActivity {
     private String eventName, evenTime, eventLocation, eventDate;
     private Set<String> eventList;
     private ArrayList<String> eventNameList = new ArrayList<>();
-    private String[] eventListView;
+    private String[] eventListView = {};
     private ArrayList<String> eventDateList = new ArrayList<>();
     private ArrayList<String> eventTimeList = new ArrayList<>();
     private ArrayList<String> eventLong = new ArrayList<>();
@@ -91,16 +91,17 @@ public class UpcomingEventActivity extends AppCompatActivity {
 
                         //user_profile_name.setText(name);
                         //user_score.setText("score: " + score);
-                        Map<String, Boolean> events = (Map) abc.get("event");
-                        eventList = events.keySet();
-                        eventListView = eventList.toArray(new String[eventList.size()]);
-                        List<String> l = Arrays.<String>asList(eventListView);
+                        if (abc.get("event") != null) {
+                            Map<String, Boolean> events = (Map) abc.get("event");
+                            eventList = events.keySet();
+                            eventListView = eventList.toArray(new String[eventList.size()]);
+                            List<String> l = Arrays.<String>asList(eventListView);
 
-                        // if List<String> isnt specific enough:
-                        eventKeyList = new ArrayList<String>(l);
+                            // if List<String> isnt specific enough:
+                            eventKeyList = new ArrayList<String>(l);
 
-                        //Toast.makeText(UpcomingEventActivity.this, "b"+eventListView.length, Toast.LENGTH_SHORT).show();
-
+                            //Toast.makeText(UpcomingEventActivity.this, "b"+eventListView.length, Toast.LENGTH_SHORT).show();
+                        }
 
                         //Log.i(TAG, "blablablbala");
                     }
