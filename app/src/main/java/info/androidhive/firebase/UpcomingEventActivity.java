@@ -313,6 +313,17 @@ class MyCustomAdapter extends BaseAdapter {
                         cal.getTimeInMillis(),
                         PendingIntent.getService(context, 0, new Intent(context, NotificationPush.class), 0)
                 );
+
+                cal.set(Calendar.MINUTE,selectedMinute);
+                Intent intent2 = new Intent(context, ProfileActivity.class);//change the activity here into the new activity.
+                PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent2, 0);
+                AlarmManager alarm2 = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                alarm2.set(
+                        alarm.RTC_WAKEUP,
+                        cal.getTimeInMillis(),
+                        //put in the new activity
+                        pIntent
+                );
                 Toast.makeText(context,"we are setting notification@"+date+" "+time,Toast.LENGTH_LONG).show();
 
             }
