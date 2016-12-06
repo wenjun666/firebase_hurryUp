@@ -86,7 +86,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                 // show fragment Date
                 PickDate newFragment = new PickDate();
                 newFragment.show(getSupportFragmentManager(), "com.example.wenjun.hurryup.DatePicker");
-
+                //com.example.wenjun.hurryup.DatePicker
 
             }
         });

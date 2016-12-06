@@ -16,12 +16,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
     <Button
-        android:text="Done!!!!!!!"
+        android:text="@string/btnDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnFinishEvent" />
     <Button
-        android:text="Button"
+        android:text="@string/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSearch" />

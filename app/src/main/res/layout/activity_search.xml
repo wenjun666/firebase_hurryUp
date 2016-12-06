@@ -20,7 +20,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/btnSearch"
         android:id="@+id/button2" />
 
     <android.support.v7.widget.RecyclerView

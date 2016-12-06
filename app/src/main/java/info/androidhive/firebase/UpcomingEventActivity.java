@@ -67,29 +67,21 @@ public class UpcomingEventActivity extends AppCompatActivity {
                 //get a datasnapshot from firebase; since the return format is a jason format. we need to cast the data in a Map format
                 Map<String, Map<String, Object>> user_profile = (HashMap<String, Map<String, Object>>) dataSnapshot.getValue();
                 // if user profile exists, get all the profile info
-                if (user_profile != null) {  //check if the user already has the
+                if (user_profile != null) {  //check if the user any upcoming events
                     for (Map.Entry<String, Map<String, Object>> value : user_profile.entrySet()) {
-
                         Map<String, Object> abc = value.getValue();
-
-                        //name = abc.get("name").toString();
-                        //gender = abc.get("gender").toString();
-                        //score = abc.get("score").toString();
-
                         //user_profile_name.setText(name);
                         //user_score.setText("score: " + score);
                         Map<String, Boolean> events = (Map) abc.get("event");
                         eventList = events.keySet();
+                        //now we have a arraylist with all the user's upcoming events' id
                         eventListView = eventList.toArray(new String[eventList.size()]);
-
-
                         //Toast.makeText(UpcomingEventActivity.this, "b"+eventListView.length, Toast.LENGTH_SHORT).show();
 
-
-                        //Log.i(TAG, "blablablbala");
                     }
 
-
+                    //we will need a for loop to go through the event id list, and query each individual event
+                    //to get its name,date and time.
                     for(int i =0; i<eventListView.length;i++) {
                         //Toast.makeText(UpcomingEventActivity.this, "a" + eventListView[0], Toast.LENGTH_SHORT).show();
                         mEventReference = FirebaseDatabase.getInstance().getReference().child("events");
@@ -111,19 +103,13 @@ public class UpcomingEventActivity extends AppCompatActivity {
                                         eventDateList.add(eventDate);
                                         eventNameList.add(eventName);
                                         eventTimeList.add(eventTime);
-                                        Toast.makeText(UpcomingEventActivity.this, "ddd", Toast.LENGTH_SHORT).show();
-
-
-
+                                        //Toast.makeText(UpcomingEventActivity.this, "ddd", Toast.LENGTH_SHORT).show();
                                         //Toast.makeText(UpcomingEventActivity.this, eventName, Toast.LENGTH_SHORT).show();
-
-
-                                        //Log.i(TAG, "blablablbala");
                                     }
 
                                         lvAdapter = new MyCustomAdapter(UpcomingEventActivity.this, eventNameList, eventDateList, eventTimeList);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                                         lvEvents.setAdapter(lvAdapter);
-                                        Toast.makeText(UpcomingEventActivity.this, Integer.toString(eventNameList.size()), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(UpcomingEventActivity.this, Integer.toString(eventNameList.size()), Toast.LENGTH_SHORT).show();
 
                                         //Toast.makeText(getBaseContext(), eve, Toast.LENGTH_SHORT).show();
 
@@ -136,14 +122,7 @@ public class UpcomingEventActivity extends AppCompatActivity {
 
                             }
                         });
-
-
                     }
-
-
-
-
-
                 }
                 // if null, create new user
                 else {
@@ -164,7 +143,7 @@ public class UpcomingEventActivity extends AppCompatActivity {
     }
 }
 
-
+// custom adapter class
 class MyCustomAdapter extends BaseAdapter {
     Context context;
     private
@@ -174,7 +153,9 @@ class MyCustomAdapter extends BaseAdapter {
 
 
     public MyCustomAdapter(Context aContext, ArrayList<String> eventNameList, ArrayList<String> eventDateList,ArrayList<String> eventTimeList) {
+        //initializing our data in the constructor.
         context = aContext;
+        //retrieving items that will be inflated on the list view
         this.eventNameList=eventNameList;
         this.eventDateList=eventDateList;
         this.eventTimeList=eventTimeList;
@@ -210,6 +191,7 @@ class MyCustomAdapter extends BaseAdapter {
             row = convertView;
         }
 
+        //get references to the views within that row.
         TextView textViewName=(TextView)row.findViewById(R.id.textViewName);
         TextView textViewDate=(TextView)row.findViewById(R.id.textViewDate);
         TextView textViewTime=(TextView)row.findViewById(R.id.textViewTime);
@@ -223,7 +205,7 @@ class MyCustomAdapter extends BaseAdapter {
 
 
 
-
+        //once the row is fully constructed, return it.
         return row;
     }
 }

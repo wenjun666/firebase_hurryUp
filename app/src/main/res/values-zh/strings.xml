@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">快点儿</string>
+    <string name="action_sign_in_short">注册</string>
+    <string name="email">邮箱</string>
+    <string name="minimum_password">密码过短, 请输入至少6位字符！</string>
+    <string name="auth_failed">验证失败, 请确认你的邮箱密码，或者申请注册</string>
+    <string name="change_email">更改邮箱</string>
+    <string name="change_password">更改密码</string>
+    <string name="send_password_reset_email">邮箱重置密码</string>
+    <string name="remove_user">移除用户</string>
+    <string name="new_pass">新密码</string>
+    <string name="title_activity_profile">Firebase</string>
+    <string name="title_activity_login">登录</string>
+    <string name="hint_email">邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_name">全名</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_link_to_register">还不是用户?立即注册!</string>
+    <string name="btn_link_to_login">已注册. 登录!</string>
+    <string name="title_activity_reset_password">重置密码</string>
+    <string name="btn_forgot_password">忘记密码?</string>
+    <string name="btn_reset_password">重置密码</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="hint_new_email">新邮箱</string>
+    <string name="btn_change">更改</string>
+    <string name="btn_send">发送</string>
+    <string name="btn_remove">移除</string>
+    <string name="hint_search">搜索</string>
+    <string name="btn_sign_out">登出</string>
+    <string name="lbl_forgot_password">忘记密码?</string>
+    <string name="forgot_password_msg">我们需要你注册邮箱地址</string>
+    <string name="title_activity_maps">地图</string>
+
+    <string name="facebook_app_id">195844920866022</string>
+    <string name="fb_login_protocol_scheme">fb323924611304606</string>
+
+    <string-array name="picture_method">
+        <item>Gallery</item>
+        <item>Take a Photo</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">你好空白页面</string>
+    <string name="createEvent">创建活动</string>
+    <string name="location">地点</string>
+    <string name="inviteFriends">邀请朋友</string>
+    <string name="EventName">活动名称</string>
+    <string name="btnLocate">定位</string>
+    <string name="Time">时间</string>
+    <string name="upcomingEvent">即将发生的活动</string>
+    <string name="searchFriend">搜索新朋友</string>
+    <string name="Friend_List">朋友列表</string>
+    <string name="Logout">登出</string>
+    <string name="noFriendYet">你还没添加朋友, 快来加入我们!</string>
+    <string name="gotoSearchFriend">搜索新的朋友!</string>
+    <string name="topTem">前十用户!</string>
+    <string name="notifyMe">提醒我!</string>
+    <string name="btnSearch">搜索</string>
+    <string name="btnDone">完成!</string>
+    <string name="btnInvite">邀请</string>
+    <string name="textViewScore">分数:</string>
+</resources>

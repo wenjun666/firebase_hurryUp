@@ -16,6 +16,9 @@ import android.widget.ImageView;
 /**
  * Created by wenjun on 11/16/2016.
  */
+
+//custom rounded image-view in android using canvas
+//construct a circle shape view class
 public class RoundedImageView  extends ImageView {
     public RoundedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,6 +46,12 @@ public class RoundedImageView  extends ImageView {
 
     }
 
+    //creates a BitmapDrawable
+    // cropped the bitmap image accroding to the radius
+    //The Canvas class holds the "draw" calls. To draw something,
+    // you need 4 basic components: A Bitmap to hold the pixels,
+    // a Canvas to host the draw calls (writing into the bitmap),
+    // a drawing primitive (e.g. Rect, Path, text, Bitmap), and a paint (to describe the colors and styles for the drawing).
     public static Bitmap getRoundedCroppedBitmap(Bitmap bitmap, int radius) {
         Bitmap finalBitmap;
         if (bitmap.getWidth() != radius || bitmap.getHeight() != radius)
@@ -62,13 +71,14 @@ public class RoundedImageView  extends ImageView {
         paint.setFilterBitmap(true);
         paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
+        //define the color of the border
         paint.setColor(Color.parseColor("#BAB399"));
         canvas.drawCircle(finalBitmap.getWidth() / 2 + 0.7f,
                 finalBitmap.getHeight() / 2 + 0.7f,
                 finalBitmap.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(finalBitmap, rect, rect, paint);
-
+        //finalize the bitmap object through canvas
         return output;
     }
 
