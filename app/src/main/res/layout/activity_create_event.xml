@@ -109,7 +109,7 @@
 <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Event"
+        android:text="@string/createEvent"
         android:id="@+id/btnCreateEvent"
         android:layout_gravity="center_horizontal" />
 

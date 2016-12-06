@@ -25,7 +25,7 @@ public class PickTime extends DialogFragment {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int min = c.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), onTimeSetListener,hour,min,true);
+        return new TimePickerDialog(getActivity(),R.style.datepicker, onTimeSetListener,hour,min,true);
 
     }
 

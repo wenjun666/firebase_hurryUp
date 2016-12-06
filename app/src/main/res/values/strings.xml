@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase Auth</string>
+    <string name="app_name">Hurry Up</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
@@ -54,6 +54,10 @@
     <string name="gotoSearchFriend">Search for New Friend!</string>
     <string name="topTem">Top Ten Users!</string>
     <string name="notifyMe">Notify Me!</string>
+    <string name="btnSearch">search</string>
+    <string name="btnDone">Done!</string>
+    <string name="btnInvite">invite</string>
+    <string name="textViewScore">Score:</string>
     <string name="eventStarted">Your Party Just Started!</string>
     <string name="YourNewestScore">Your Newest Score Is:</string>
     <string name="GoBackProfile">Go Back To My Porfile!</string>

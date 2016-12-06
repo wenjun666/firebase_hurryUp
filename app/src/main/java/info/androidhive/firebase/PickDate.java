@@ -1,5 +1,6 @@
 package info.androidhive.firebase;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,7 +38,7 @@ public class PickDate extends DialogFragment {
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(), onDateSetListener, year, month, day);
+        return new DatePickerDialog(getActivity(),R.style.datepicker, onDateSetListener, year, month, day);
 
     }
 
