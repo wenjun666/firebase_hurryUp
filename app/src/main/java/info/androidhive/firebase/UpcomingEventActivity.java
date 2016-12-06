@@ -324,7 +324,7 @@ class MyCustomAdapter extends BaseAdapter {
                         //put in the new activity
                         pIntent
                 );
-                Toast.makeText(context,"we are setting notification@"+date+" "+time,Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"New Event @"+date+" "+time,Toast.LENGTH_LONG).show();
 
             }
         });
