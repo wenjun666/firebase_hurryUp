@@ -1,7 +1,9 @@
 package info.androidhive.firebase;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -73,7 +75,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private FirebaseAuth.AuthStateListener authListener;
     private TextView user_profile_name, user_score;
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private String email,name,gender,score,userId,phone;
+    private String email,name,gender,userId,phone;
+    private long score;
     private Set<String> friendList;
     private Button upcomingEvent;
     private Button topTen;
@@ -145,8 +148,6 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //start checking service! I have got the power!
-        startService(new Intent(ProfileActivity.this, Myservice.class));
         //Initialize Database:
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
@@ -158,6 +159,9 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
             email = "";
         } else {
             email = user.getEmail();
+        }
+        if (name==null){
+            name = "Handsome boy";
         }
         userId = user.getUid();
 
@@ -188,7 +192,9 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
         }*/
 
-        score = "0";
+
+        score = 0;
+
         phone = "";
         gender = "";
 
@@ -216,7 +222,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         //get information from map obejct abc.
                         name = abc.get("name").toString();
                         gender = abc.get("gender").toString();
-                        score = abc.get("score").toString();
+                        score = (long)abc.get("score");
 
                         user_profile_name.setText(name);
                         user_score.setText( score+"pts");
@@ -224,11 +230,18 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         friendList = friends.keySet();
 
                     }
+                    //start checking service! I have got the power!
+                    startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
                 // if null, create new user
                 else {
                     // Push a new user profil
                     createProfile(userId, email, name, gender, phone, score);
+                    //
+                    user_profile_name.setText(name);
+                    user_score.setText("score: " + score);
+                    //start checking service! I have got the power!
+                    startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
 
             }
@@ -338,6 +351,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     public void signOut() {
         //start checking service! I have got the power!
         stopService(new Intent(ProfileActivity.this, Myservice.class));
+        AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarm.cancel(PendingIntent.getService(this, 0, new Intent(this, Myservice.class), 0));
         auth.signOut();
         Intent signOutIntent = new Intent(this, LoginActivity.class);
         startActivity(signOutIntent);
@@ -512,14 +527,17 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
 
     // Helper method Creating new profile
-    public void createProfile(String userId, String email, String name, String gender, String phone, String score) {
+    public void createProfile(String userId, String email, String name, String gender, String phone, long score) {
         String new_user_key = userId;
+        AppUser newUser = new AppUser(email,name,"",gender,phone,score);
+        /*
         mPostReference.child(new_user_key).child("email").setValue(email);
         mPostReference.child(new_user_key).child("name").setValue(name);
         mPostReference.child(new_user_key).child("gender").setValue(gender);
         mPostReference.child(new_user_key).child("location").setValue("");
         mPostReference.child(new_user_key).child("phone").setValue(phone);
-        mPostReference.child(new_user_key).child("score").setValue(score);
+        mPostReference.child(new_user_key).child("score").setValue(score);*/
+        mPostReference.child((new_user_key)).setValue(newUser);
         mPostReference.child(new_user_key).child("friend").child("abc").setValue(true);
         Log.i(TAG, "new user key:" + new_user_key);
     }

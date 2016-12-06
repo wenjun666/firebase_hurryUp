@@ -56,7 +56,8 @@ public class SearchActivity extends AppCompatActivity {
         UserList = (RecyclerView) findViewById(R.id.userList);
         UserList.setHasFixedSize(true);
         UserList.setLayoutManager(new LinearLayoutManager(this));
-
+        //save for later. search for friend.
+        /*
         btnSearch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 final String name=inputText.getText().toString();
@@ -76,7 +77,8 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
+
 
         final FirebaseRecyclerAdapter<AppUser, UserListViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AppUser, UserListViewHolder>(
@@ -98,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
 
                                     UserDatabaseReference.child("friend").child(UserName).setValue(true);
                                     //Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getApplicationContext(),UserName+":true"+Email, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),UserName+"is now your friend!", Toast.LENGTH_SHORT).show();
                                     //adapter.getRef(position).removeValue();
                                 }
                             });
@@ -118,6 +120,7 @@ public class SearchActivity extends AppCompatActivity {
             mText=(TextView) v.findViewById(android.R.id.text1);
             mView = v;
         }
+
 
     }
 
