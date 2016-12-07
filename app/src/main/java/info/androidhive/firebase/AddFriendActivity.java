@@ -33,7 +33,7 @@ import java.util.Set;
 
 public class AddFriendActivity extends AppCompatActivity {
     private DatabaseReference mPostReference,UserDatabaseReference, FriendDatabaseReference;
-    //UI Design
+    //UI Designs
 
     private Button btnFinishEvent;
     private RecyclerView friendList;
