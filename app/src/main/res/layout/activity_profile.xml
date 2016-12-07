@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/roundflower" />
+            android:src="@drawable/flower" />
 
         <info.androidhive.firebase.RoundedImageView
             android:id="@+id/imageViewRound"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="75dp"
-                android:text="Jeremy Dog"
+                android:text="hello    user"
                 android:textColor="#EB0D0808"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -56,12 +56,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_profile_name"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="I am handsome as hell"
+                android:text="@string/textViewScore"
                 android:textColor="#EB0D0808"
-                android:textSize="10sp" />
+                android:textSize="15sp"
+                android:layout_toStartOf="@+id/score"
+                android:layout_alignStart="@+id/user_profile_name"
+                android:textIsSelectable="false" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/score"
+                android:layout_alignTop="@+id/user_profile_short_bio"
+                android:layout_alignEnd="@+id/user_profile_name"
+                android:textSize="15dp"
+                android:textColor="#000000" />
             <ImageView
                 android:id="@+id/add_friend"
                 android:layout_width="30dp"

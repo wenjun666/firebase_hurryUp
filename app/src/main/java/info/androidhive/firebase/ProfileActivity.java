@@ -1,16 +1,22 @@
 package info.androidhive.firebase;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -35,6 +41,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -58,6 +66,8 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
     private Set<String> friendList;
     private Button upcomingEvent;
     private Button topTen;
+    private String DEBUG_TAG="tag";
+    public static final String PREFS_NAME = "MyPref";
 
     private GestureDetectorCompat GD;
 
@@ -74,6 +84,28 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         user_score = (TextView) findViewById(R.id.user_profile_short_bio);
         upcomingEvent = (Button) findViewById(R.id.btnUpcomingEvent);
         topTen = (Button) findViewById(R.id.btnTopTen);
+        imageViewRound = (info.androidhive.firebase.RoundedImageView)findViewById(R.id.imageViewRound);  //profile picture
+        addFriend = (ImageView)findViewById(R.id.add_friend);   // add friend icon
+        createButton = (Button)findViewById(R.id.createButton); // Click to create event
+        cameraIcon = (ImageView)findViewById(R.id.camera_icon); //Click to choose a picture or take a picture using camera
+
+
+        Bitmap icon =  BitmapFactory.decodeResource(getResources(),R.drawable.background);
+
+
+        SharedPreferences settings = this.getSharedPreferences("MyPref", 0);
+
+        if(settings!=null){
+            String image = settings.getString("imagepath","null");
+            if(image!= "null") {
+                //Log.i(DEBUG_TAG, image);
+                //File imgFile = new File(image);
+                //Log.i(DEBUG_TAG, imgFile.getAbsolutePath());
+                Bitmap bmap = decodeBase64(image);
+                //icon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                imageViewRound.setImageBitmap(bmap);
+            }
+        }
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -127,7 +159,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                         score = (long)abc.get("score");
 
                         user_profile_name.setText(name);
-                        user_score.setText("score: " + score);
+                        user_score.setText( score+"pts");
                         Map<String, Boolean> friends = (Map) abc.get("friend");
                         friendList = friends.keySet();
 
@@ -141,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                     createProfile(userId, email, name, gender, phone, score);
                     //
                     user_profile_name.setText(name);
-                    user_score.setText("score: " + score);
+                    user_score.setText( score+"pts");
                     //start checking service! I have got the power!
                     startService(new Intent(ProfileActivity.this, Myservice.class));
                 }
@@ -176,13 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
             }
         };
 
-        imageViewRound = (ImageView)findViewById(R.id.imageViewRound);  //profile picture
-        addFriend = (ImageView)findViewById(R.id.add_friend);   // add friend icon
-        createButton = (Button)findViewById(R.id.createButton); // Click to create event
-        cameraIcon = (ImageView)findViewById(R.id.camera_icon); //Click to choose a picture or take a picture using camera
 
-
-        Bitmap icon =  BitmapFactory.decodeResource(getResources(),R.drawable.background);
 
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this); //build a pop up alert dialog
@@ -199,11 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto , PICK_PHOTO);//one can be replaced with any action code
                 }
-                if (position==1){
-                    Intent pickPhoto = new Intent(Intent.ACTION_CAMERA_BUTTON,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , PICK_PHOTO);//one can be replaced with any action code
-                }
+
             }
         });
 
@@ -353,6 +375,75 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
         Toast.makeText(getBaseContext(),"onfling",Toast.LENGTH_LONG).show();
         return false;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                //Display an error
+                return;
+            }
+            try {
+                InputStream inputStream = getBaseContext().getContentResolver().openInputStream(data.getData());
+                Bitmap bmap =  BitmapFactory.decodeStream(inputStream);
+                imageViewRound.setImageBitmap(bmap);
+
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                //float[] rateArray = new float[lvAdapter.getCount()];
+                //rateArray = lvAdapter.getRbEpisode();
+
+                //editor.putFloat(Integer.toString(i),(float)lvAdapter.getItem(i));
+
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String filePath = cursor.getString(columnIndex);
+                cursor.close();
+                //String fileName = "/storage/emulated/0/Download/flower-631765_1280.jpg";
+                //File file = new File(fileName);
+                //Log.i(DEBUG_TAG, filePath);
+                //Bitmap bmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                //imageViewRound.setImageBitmap(bmap);
+                String myString = encodeTobase64(bmap);
+                //Bitmap test =  decodeBase64(myString);
+                //imageViewRound.setImageBitmap(test);
+                editor.putString("imagepath",myString);
+                //Log.i(DEBUG_TAG,filePath);
+                //bmap.recycle();
+                editor.commit();
+                //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+            }
+            catch(Exception e) {
+                Log.i(DEBUG_TAG, e.toString());
+            }
+            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+        }
+    }
+
+    // method for bitmap to base64
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
 
 
 
