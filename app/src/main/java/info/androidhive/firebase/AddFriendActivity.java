@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SearchView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +34,8 @@ import java.util.Set;
 public class AddFriendActivity extends AppCompatActivity {
     private DatabaseReference mPostReference,UserDatabaseReference, FriendDatabaseReference;
     //UI
-    private TextView inputText;
-    private Button btnSearch, btnFinishEvent;
+
+    private Button btnFinishEvent;
     private RecyclerView friendList;
 
     private static final String TAG = AddFriendActivity.class.getSimpleName();
@@ -65,34 +63,14 @@ public class AddFriendActivity extends AppCompatActivity {
                 .child("users").child(userId);
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("users");
-        inputText = (TextView)findViewById(R.id.textView2);
-        btnSearch =(Button)findViewById(R.id.btnSearch);
+
         btnFinishEvent = (Button)findViewById(R.id.btnFinishEvent);
         friendList = (RecyclerView) findViewById(R.id.friendList);
         friendList.setHasFixedSize(true);
         friendList.setLayoutManager(new LinearLayoutManager(this));
 
 
-        btnSearch.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
-                final String name=inputText.getText().toString();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                        .child("users").child(name).child("name");
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String name1 = dataSnapshot.getValue(String.class);
-                        Toast.makeText(getApplicationContext(), "Read "+name+"'s name just for once: "+name1, Toast.LENGTH_SHORT).show();
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
 
         btnFinishEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +184,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+/*    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
         MenuItem searchItem = menu.findItem(R.id.search);
@@ -221,31 +199,14 @@ public class AddFriendActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.search:
-                searchFriend();
+                //searchFriend();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
-    public void searchFriend(){
-        final String name=inputText.getText().toString();
-        mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(name).child("name");
-        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String name1 = dataSnapshot.getValue(String.class);
-                Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_SHORT).show();
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     public void backToProfile() {
         Intent intent = new Intent(this, ProfileActivity.class);

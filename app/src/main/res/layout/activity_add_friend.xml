@@ -10,21 +10,13 @@
     android:orientation="vertical"
     tools:context="info.androidhive.firebase.AddFriendActivity">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+
     <Button
         android:text="Done!!!!!!!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnFinishEvent" />
-    <Button
-        android:text="Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSearch" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

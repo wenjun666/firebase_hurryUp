@@ -58,4 +58,5 @@
     <string name="YourNewestScore">Your Newest Score Is:</string>
     <string name="GoBackProfile">Go Back To My Porfile!</string>
     <string name="user_display_name">Your name</string>
+    <string name="AcceptInvitation">Accept this Invitation!</string>
 </resources>

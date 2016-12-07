@@ -46,7 +46,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
     private DatePicker calendarView;
     private EditText editTextDate, editTxtEventName, editTxtTime, editTxtlocation;
     private DatabaseReference mEventReference;
-    private Button btnCreate,btnInvite;
+    private Button btnInvite;
     private Button searchLocate;
     private CameraUpdate camUpdate;
     private String longtitute;
@@ -61,7 +61,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         setContentView(R.layout.activity_create_event);
         editTextDate = (EditText) findViewById(R.id.date);
         editTxtTime = (EditText) findViewById(R.id.time);
-        btnCreate = (Button)findViewById(R.id.btnCreateEvent);
+
         btnInvite =(Button) findViewById(R.id.btnInvite);
         editTxtEventName = (EditText)findViewById(R.id.txtEventName);
         editTxtlocation = (EditText)findViewById(R.id.editTextLocation);
