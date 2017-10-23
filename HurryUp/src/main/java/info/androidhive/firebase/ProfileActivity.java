@@ -24,7 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,7 +44,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 public class ProfileActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener {
@@ -81,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity implements GestureDetecto
 
 
         user_profile_name = (TextView)findViewById(R.id.user_profile_name);
-        user_score = (TextView) findViewById(R.id.user_profile_short_bio);
+        user_score = (TextView) findViewById(R.id.score);
         upcomingEvent = (Button) findViewById(R.id.btnUpcomingEvent);
         topTen = (Button) findViewById(R.id.btnTopTen);
         imageViewRound = (info.androidhive.firebase.RoundedImageView)findViewById(R.id.imageViewRound);  //profile picture

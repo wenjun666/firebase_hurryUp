@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/firebase_hurryUp_0.8.5.iml" filepath="$PROJECT_DIR$/firebase_hurryUp_0.8.5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HurryUp/HurryUp.iml" filepath="$PROJECT_DIR$/HurryUp/HurryUp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/firebase_hurryUp.iml" filepath="$PROJECT_DIR$/firebase_hurryUp.iml" />
     </modules>
   </component>
 </project>

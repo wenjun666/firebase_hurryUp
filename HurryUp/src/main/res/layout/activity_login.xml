@@ -94,15 +94,20 @@
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button_facebook"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="30dp"
+            android:foregroundGravity="top"
+            android:gravity="top|center"
+            android:layout_weight="0.13"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp" />
     </LinearLayout>
 
     <ProgressBar
